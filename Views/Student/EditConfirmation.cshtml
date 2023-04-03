@@ -1,0 +1,31 @@
+@model Student
+
+<h2>Student Updated Successfully!</h2>
+
+<div>
+    <h4>Student Details:</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudentID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudentID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+    </dl>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

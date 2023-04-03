@@ -1,0 +1,58 @@
+@model List<StudentReportView>
+
+<h2>Student Report</h2>
+
+@foreach (var studentReport in Model)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Total Cost</th>
+            <th>Total Amount Paid</th>
+            <th>Total Amount Owing</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@studentReport.StudentID</td>
+            <td>@studentReport.Name</td>
+            <td>@studentReport.Age</td>
+            <td>$ @studentReport.TotalCost</td>
+            <td>$ @studentReport.TotalAmountPaid</td>
+            <td>$ @studentReport.TotalAmountOwing</td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Cost</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var courseSelection in studentReport.CourseSelectionViews)
+                    {
+                        <tr>
+                            <td>@courseSelection.CourseName</td>
+                            <td>$ @courseSelection.Cost</td>
+                            <td>$ @courseSelection.AmountPaid</td>
+                            <td>@Html.DisplayFor(modelItem => courseSelection.PaymentDate)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}
+
+@* <div> *@
+@*     <a asp-action="StudentReport" class="btn btn-primary">Report</a> *@
+@* </div> *@
