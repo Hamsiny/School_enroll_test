@@ -10,10 +10,12 @@ namespace UxtrataTask.Controllers;
 public class ReportController : Controller
 {
     private readonly IGenericMySqlAccessRepository<Student> _studentRepo;
+    private readonly IGenericMySqlAccessRepository<Course> _courseRepo;
 
-    public ReportController(IGenericMySqlAccessRepository<Student> studentRepo)
+    public ReportController(IGenericMySqlAccessRepository<Student> studentRepo, IGenericMySqlAccessRepository<Course> courseRepop)
     {
         _studentRepo = studentRepo;
+        _courseRepo = courseRepop;
     }
 
     public IActionResult StudentReport()
@@ -99,5 +101,46 @@ public class ReportController : Controller
         }
 
         return studentReportData;
+    }
+    
+    public IActionResult ReportCourseView()
+    {
+        var courseReportData = GetCourseReportData();
+
+        return View(courseReportData);
+    }
+
+    private List<CourseReportView> GetCourseReportData()
+    {
+        var courses = _courseRepo.GetQueryable().Include(c => c.CourseSelections).ThenInclude(cs => cs.Student)
+            .ToList();
+        var courseReportData = new List<CourseReportView>();
+        
+        foreach (var course in courses)
+        {
+            // var totalCost = student.CourseSelections.Sum(cs => cs.Course.Cost);
+            // var totalAmountPaid = student.CourseSelections.Sum(cs => cs.AmountPaid);
+            // var totalAmountOwing = totalCost - totalAmountPaid;
+
+            courseReportData.Add(new CourseReportView()
+            {
+                CourseID = course.CourseID,
+                CourseName = course.CourseName,
+                Cost = course.Cost,
+                // TotalCost = totalCost,
+                // TotalAmountPaid = totalAmountPaid,
+                // TotalAmountOwing = totalAmountOwing,
+                StudentSelectionViews = course.CourseSelections.Where(cs => cs.CourseID == course.CourseID).Select(cs => new StudentSelectionView()
+                {
+                    Name = cs.Student.Name,
+                    Age = cs.Student.Age,
+                    Cost = cs.Course.Cost,
+                    AmountPaid = cs.AmountPaid,
+                    PaymentDate = cs.PaymentDate
+                }).ToList()
+            });
+        }
+
+        return courseReportData;
     }
 }

@@ -1,0 +1,56 @@
+@model List<CourseReportView>
+
+<h2>Course Report</h2>
+
+@foreach (var courseReport in Model)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Cost</th>
+            @* <th>Total Cost</th> *@
+            @* <th>Total Amount Paid</th> *@
+            @* <th>Total Amount Owing</th> *@
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@courseReport.CourseID</td>
+            <td>@courseReport.CourseName</td>
+            <td>@courseReport.Cost</td>
+            @* <td>$ @studentReport.TotalCost</td> *@
+            @* <td>$ @studentReport.TotalAmountPaid</td> *@
+            @* <td>$ @studentReport.TotalAmountOwing</td> *@
+        </tr>
+        <tr>
+            <td colspan="6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Cost</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var studentSelection in courseReport.StudentSelectionViews)
+                    {
+                        <tr>
+                            <td>@studentSelection.Name</td>
+                            <td>@studentSelection.Age</td>
+                            <td>$ @studentSelection.Cost</td>
+                            <td>$ @studentSelection.AmountPaid</td>
+                            <td>@Html.DisplayFor(modelItem => studentSelection.PaymentDate)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}
